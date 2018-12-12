@@ -7,9 +7,10 @@ export default class Calculator extends React.Component {
   constructor() {
     super();
     this.state = {
-      operand1: null,
-      operand2: null,
-      operator: null
+      operand1: "",
+      operand2: "",
+      operator: "",
+      equals: ""
     };
   }
 
@@ -30,16 +31,42 @@ export default class Calculator extends React.Component {
   }
   clear() {
     this.setState({
-      operand1: null,
-      operand2: null,
-      operator: null
+      operand1: "",
+      operand2: "",
+      operator: "",
+      equals: ""
     })
+  }
+
+  equals() {
+    const op1 = Number(this.state.operand1);
+    const op2 = Number(this.state.operand2);
+    if (this.state.operator === "+") {
+      const sum = op1 + op2;
+      this.setState({equals: sum});
+    }
+    if (this.state.operator === "-") {
+      const difference = op1 - op2;
+      this.setState({equals: difference});
+    }
+    if (this.state.operator === "*") {
+      const product = op1 * op2;
+      this.setState({equals: product});
+    }
+    if (this.state.operator === "/") {
+      const dividend = op1 / op2;
+      this.setState({equals: dividend});
+    }
+  }
+
+  display() {
+
   }
 
   render() {
     return (
       <div>
-        <Output value={`${this.state.operand1} ${this.state.operator} ${this.state.operand2}`}/>
+        <Output value={`${this.state.operand1} ${this.state.operator} ${this.state.operand2}`} equals={`=${this.state.equals}`}/>
         <Button label="1" onClick={op => this.setOperand(op)} />
         <Button label="2" onClick={op => this.setOperand(op)}/>
         <Button label="3" onClick={op => this.setOperand(op)}/>
@@ -57,7 +84,7 @@ export default class Calculator extends React.Component {
         <br />
         <Button label="C" onClick={() => this.clear()}/>
         <Button label="0" onClick={op => this.setOperand(op)}/>
-        <Button label="=" />
+        <Button label="=" onClick={() => this.equals()}/>
         <Button label="/" onClick={op => this.setOperator(op)}/>
       </div>
     )

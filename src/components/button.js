@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Button(props) {
   return(
-      <button onClick={event => props.onClick(props.label)}>{props.label}</button>
+      <button onClick={() => props.onClick(props.label)}>{props.label}</button>
   )
 }
 
-Button.propTypes = { label: String };
+Button.propTypes = { label: String, onClick: '' };

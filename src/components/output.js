@@ -4,6 +4,8 @@ export default function Output(props) {
   return <div>
     <output>
       {props.value}
+      <br />
+      {props.equals}
     </output>
   </div>
 }
@@ -11,4 +13,4 @@ export default function Output(props) {
 // Output.defaultProps = {
 //     value: 0
 // };
-Output.propTypes = { value: String };
+Output.propTypes = { value: String, equals: String };
