@@ -11,4 +11,4 @@ export default function Output(props) {
 // Output.defaultProps = {
 //     value: 0
 // };
-Output.propTypes = { value: "" };
+Output.propTypes = { value: String };
