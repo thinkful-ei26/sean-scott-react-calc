@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 export default function Button(props) {
   return(
@@ -6,4 +7,4 @@ export default function Button(props) {
   )
 }
 
-Button.propTypes = { label: String, onClick: '' };
+Button.propTypes = { label: PropTypes.string, onClick: PropTypes.func };

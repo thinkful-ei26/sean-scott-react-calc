@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from './button.js';
 import Output from './output.js';
-import EqualsDisplay from './equalsDisplay';
 
 export default class Calculator extends React.Component {
   constructor() {
@@ -10,57 +9,59 @@ export default class Calculator extends React.Component {
       operand1: "",
       operand2: "",
       operator: "",
-      equals: ""
+      equals: "",
     };
   }
 
   setOperand(operand) {
-    let op;
-    if (this.state.operator) {
-      if (!this.state.operand2) op = operand;
-      else op = this.state.operand2.concat(operand);
-      this.setState({operand2: op});
-    } else {
-      if (!this.state.operand1) op = operand;
-      else op = this.state.operand1.concat(operand);
-      this.setState({operand1: op});
-    }
+    if (this.state.equals) {
+      this.setState({
+        operand1: operand,
+        operand2: "",
+        operator: "",
+        equals: "",
+      });
+    } else if (this.state.operator) this.setState({operand2: this.state.operand2 + operand});
+    else this.setState({operand1: this.state.operand1 + operand});
   }
   setOperator(operator) {
-    if (this.state.operand1) this.setState({operator});
+    if (this.state.equals) {
+      this.setState({
+        operand1: this.state.equals,
+        operand2: "",
+        operator,
+        equals: "",
+      })
+    } else if (this.state.operand2) {
+      const op1 = Number(this.state.operand1);
+      const op2 = Number(this.state.operand2);
+      if (this.state.operator === '+') this.setState({operand1: (op1+op2).toString(), operand2: '', operator, equals: ''});
+      else if (this.state.operator === '-') this.setState({operand1: (op1-op2).toString(), operand2: '', operator, equals: ''});
+      else if (this.state.operator === '*') this.setState({operand1: (op1*op2).toString(), operand2: '', operator, equals: ''});
+      else if (this.state.operator === '/') {
+        if (op2 === 0) window.alert('Error: division by zero')
+        else this.setState({operand1: (op1/op2).toString(), operand2: '', operator, equals: ''});
+      }
+    } else if (this.state.operand1) this.setState({operator});
   }
   clear() {
     this.setState({
       operand1: "",
       operand2: "",
       operator: "",
-      equals: ""
+      equals: "",
     })
   }
-
   equals() {
     const op1 = Number(this.state.operand1);
     const op2 = Number(this.state.operand2);
-    if (this.state.operator === "+") {
-      const sum = op1 + op2;
-      this.setState({equals: sum});
+    if (this.state.operator === "+") this.setState({equals: op1 + op2});
+    else if (this.state.operator === "-") this.setState({equals: op1 - op2});
+    else if (this.state.operator === "*") this.setState({equals: op1 * op2});
+    else if (this.state.operator === "/") {
+      if (op2 === 0) window.alert('Error: division by zero');
+      else this.setState({equals: op1 / op2});
     }
-    if (this.state.operator === "-") {
-      const difference = op1 - op2;
-      this.setState({equals: difference});
-    }
-    if (this.state.operator === "*") {
-      const product = op1 * op2;
-      this.setState({equals: product});
-    }
-    if (this.state.operator === "/") {
-      const dividend = op1 / op2;
-      this.setState({equals: dividend});
-    }
-  }
-
-  display() {
-
   }
 
   render() {
@@ -80,7 +81,7 @@ export default class Calculator extends React.Component {
         <Button label="7" onClick={op => this.setOperand(op)}/>
         <Button label="8" onClick={op => this.setOperand(op)}/>
         <Button label="9" onClick={op => this.setOperand(op)}/>
-        <Button label="x" onClick={op => this.setOperator(op)}/>
+        <Button label="*" onClick={op => this.setOperator(op)}/>
         <br />
         <Button label="C" onClick={() => this.clear()}/>
         <Button label="0" onClick={op => this.setOperand(op)}/>

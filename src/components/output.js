@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 export default function Output(props) {
   return <div>
@@ -10,7 +11,4 @@ export default function Output(props) {
   </div>
 }
 
-// Output.defaultProps = {
-//     value: 0
-// };
-Output.propTypes = { value: String, equals: String };
+Output.propTypes = { value: PropTypes.string, equals: PropTypes.string };
